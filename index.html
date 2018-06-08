@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+    <meta charset="utf-8">
+    <title>Noms d'étoiles</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #header {
+            border-bottom: 1px solid black;
+            padding: 8px;
+        }
+
+        #main {
+            flex-grow: 1;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        #contenu>div {
+            padding: 0.33em 2.67em;
+        }
+
+        #contenu>div:nth-child(even) {
+            background: #eeeeee;
+        }
+
+        .selectionne {
+            background: yellow !important;
+        }
+    </style>
+
+    <script src="noms_detoiles.js"></script>
+    <script>
+        function scrollToRandomStar() {
+            deselectionner();
+            // on scroll vers une étoile aléatoire
+            var n = Math.floor((Math.random() * ETOILES.length));
+            var li = document.getElementById('etoile'+n);
+            li.className = 'selectionne';
+            li.scrollIntoView({behavior: "instant", block: "center", inline: "center"});
+        }
+
+        function deselectionner() {
+            var selectionnes = document.querySelectorAll('.selectionne');
+            for (var i = 0; i < selectionnes.length; i++) {
+                selectionnes[i].className = '';
+            }
+        }
+
+        function scrollToTop() {
+            deselectionner();
+            document.getElementById('top').scrollIntoView();
+        }
+    </script>
+
+</head>
+<body>
+
+    <div id="header">
+        <button onclick="scrollToRandomStar()">Nom aléatoire</button>
+        <button onclick="deselectionner()">Déselectionner</button>
+        <button onclick="scrollToTop()">Retour en haut</button>
+    </div>
+
+    <div id="main">
+        <div id="top"></div>
+        <div id="contenu"></div>
+    </div>
+
+    <script>
+        var contenu = document.getElementById('contenu');
+        for (var i = 0; i < ETOILES.length; i++) {
+            var li = document.createElement('div');
+            li.id = 'etoile'+i;
+            li.innerText = ETOILES[i];
+            contenu.appendChild(li);
+        }
+    </script>
+
+</body>
+</html>
